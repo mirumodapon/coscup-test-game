@@ -10,7 +10,7 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
+
 @app.get("/")
 def root():
     return {"message": "Welcome to COSCUP 2025 GeoTrainPoly backend!"}
-
