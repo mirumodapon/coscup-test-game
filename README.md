@@ -21,12 +21,12 @@ This template has been updated for:
 
 ## Available Commands
 
-| Command | Description |
-|---------|-------------|
-| `npm install` | Install project dependencies |
-| `npm run dev` | Launch a development web server |
-| `npm run build` | Create a production build in the `dist` folder |
-| `npm run dev-nolog` | Launch a development web server without sending anonymous data (see "About log.js" below) |
+| Command               | Description                                                                                              |
+| --------------------- | -------------------------------------------------------------------------------------------------------- |
+| `npm install`         | Install project dependencies                                                                             |
+| `npm run dev`         | Launch a development web server                                                                          |
+| `npm run build`       | Create a production build in the `dist` folder                                                           |
+| `npm run dev-nolog`   | Launch a development web server without sending anonymous data (see "About log.js" below)                |
 | `npm run build-nolog` | Create a production build in the `dist` folder without sending anonymous data (see "About log.js" below) |
 
 ## Writing Code
@@ -41,20 +41,20 @@ Once the server is running you can edit any of the files in the `src` folder. Vi
 
 We have provided a default project structure to get you started. This is as follows:
 
-| Path                          | Description                                                                                     |
-|-------------------------------|-------------------------------------------------------------------------------------------------|
-| `index.html`                  | A basic HTML page to contain the game.                                                         |
-| `src`                         | Contains the Vue source code.                                                                  |
-| `src/main.ts`                 | The main **Vue** entry point. This bootstraps the Vue application.                             |
-| `src/vite-env.d.ts`           | Global TypeScript declarations, providing type information.                                    |
-| `src/App.vue`                 | The main Vue component.                                                                        |
-| `src/PhaserGame.vue`     | The Vue component that initializes the Phaser Game and serves as a bridge between Vue and Phaser. |
-| `src/game/EventBus.ts`        | A simple event bus to communicate between Vue and Phaser.                                      |
-| `src/game`                    | Contains the game source code.                                                                |
-| `src/game/main.ts`            | The main **game** entry point. This contains the game configuration and starts the game.       |
-| `src/game/scenes/`            | The Phaser Scenes are in this folder.                                                         |
-| `public/style.css`            | Some simple CSS rules to help with page layout.                                               |
-| `public/assets`               | Contains the static assets used by the game.                                                  |
+| Path                   | Description                                                                                       |
+| ---------------------- | ------------------------------------------------------------------------------------------------- |
+| `index.html`           | A basic HTML page to contain the game.                                                            |
+| `src`                  | Contains the Vue source code.                                                                     |
+| `src/main.ts`          | The main **Vue** entry point. This bootstraps the Vue application.                                |
+| `src/vite-env.d.ts`    | Global TypeScript declarations, providing type information.                                       |
+| `src/App.vue`          | The main Vue component.                                                                           |
+| `src/PhaserGame.vue`   | The Vue component that initializes the Phaser Game and serves as a bridge between Vue and Phaser. |
+| `src/game/EventBus.ts` | A simple event bus to communicate between Vue and Phaser.                                         |
+| `src/game`             | Contains the game source code.                                                                    |
+| `src/game/main.ts`     | The main **game** entry point. This contains the game configuration and starts the game.          |
+| `src/game/scenes/`     | The Phaser Scenes are in this folder.                                                             |
+| `public/style.css`     | Some simple CSS rules to help with page layout.                                                   |
+| `public/assets`        | Contains the static assets used by the game.                                                      |
 
 ## Vue Bridge
 
@@ -64,16 +64,16 @@ To communicate between Vue and Phaser, you can use the **EventBus.ts** file. Thi
 
 ```js
 // In Vue
-import { EventBus } from './EventBus';
+import { EventBus } from './EventBus'
 
 // Emit an event
-EventBus.emit('event-name', data);
+EventBus.emit('event-name', data)
 
 // In Phaser
 // Listen for an event
 EventBus.on('event-name', (data) => {
-    // Do something with the data
-});
+  // Do something with the data
+})
 ```
 
 In addition to this, the `PhaserGame` component exposes the Phaser game instance along with the most recently active Phaser Scene. You can pick these up from Vue via `(defineExpose({ scene, game }))`.
@@ -88,22 +88,18 @@ You can get the current Phaser Scene from the component event `"current-active-s
 
 **Important**: When you add a new Scene to your game, make sure you expose to Vue by emitting the `"current-scene-ready"` event via the `EventBus`, like this:
 
-
 ```js
-class MyScene extends Phaser.Scene
-{
-    constructor ()
-    {
-        super('MyScene');
-    }
+class MyScene extends Phaser.Scene {
+  constructor() {
+    super('MyScene')
+  }
 
-    create ()
-    {
-        // Your Game Objects and logic here
+  create() {
+    // Your Game Objects and logic here
 
-        // At the end of create method:
-        EventBus.emit('current-scene-ready', this);
-    }
+    // At the end of create method:
+    EventBus.emit('current-scene-ready', this)
+  }
 }
 ```
 
@@ -123,7 +119,7 @@ const game = toRaw(phaserRef.value.game) as Phaser.Game;
 const scene = toRaw(phaserRef.value.scene) as Phaser.Scene;
 
 const onCurrentActiveScene = (scene) => {
-    
+
     // This is invoked
 
 }
@@ -155,13 +151,13 @@ To load static files such as audio files, videos, etc place them into the `publi
 ```js
 preload ()
 {
-    //  This is an example of an imported bundled image.
-    //  Remember to import it at the top of this file
-    this.load.image('logo', logoImg);
+  //  This is an example of an imported bundled image.
+  //  Remember to import it at the top of this file
+  this.load.image('logo', logoImg)
 
-    //  This is an example of loading a static image
-    //  from the public/assets folder:
-    this.load.image('background', 'assets/bg.png');
+  //  This is an example of loading a static image
+  //  from the public/assets folder:
+  this.load.image('background', 'assets/bg.png')
 }
 ```
 
@@ -171,7 +167,7 @@ When you issue the `npm run build` command, all static assets are automatically 
 
 After you run the `npm run build` command, your code will be built into a single bundle and saved to the `dist` folder, along with any other assets your project imported, or stored in the public assets folder.
 
-In order to deploy your game, you will need to upload *all* of the contents of the `dist` folder to a public facing web server.
+In order to deploy your game, you will need to upload _all_ of the contents of the `dist` folder to a public facing web server.
 
 ## Customizing the Template
 
