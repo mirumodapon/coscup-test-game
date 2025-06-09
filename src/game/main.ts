@@ -6,13 +6,15 @@ import { Game as MainGame } from './scenes/Game'
 // https://docs.phaser.io/api-documentation/typedef/types-core#gameconfig
 const config: Types.Core.GameConfig = {
   type: AUTO,
-  width: 1024,
-  height: 768,
-  parent: 'game-container',
-  backgroundColor: '#028af8',
-  scene: [
-    MainGame,
-  ],
+  width: window.innerWidth,
+  height: window.innerHeight,
+  scale: {
+    mode: Phaser.Scale.RESIZE,
+    autoCenter: Phaser.Scale.CENTER_BOTH,
+  },
+  parent: "game-container",
+  backgroundColor: "#c3c3c3",
+  scene: [MainGame],
 }
 
 function StartGame(parent: string) {
