@@ -65,14 +65,22 @@ export class HexTile extends Phaser.GameObjects.Container {
     color: number,
     skew: number = 0.6
   ) {
-    super(scene, x, y)
+    super(scene, x, y-100)
     this.size = size
     this.color = color
     this.skew = skew
 
     this.hexGraphics = this.createHex()
     this.add(this.hexGraphics)
-    this.setSize(size * 2, size * 2)
+    this.setSize(size * 2, Math.sqrt(3) * size * skew)
+
+    scene.tweens.add({
+      targets: this,
+      y: y,
+      ease: 'Bounce',
+      duration: 1000,
+      delay: Phaser.Math.Between(0, 300),
+    });
   }
 
   private createHex(): Phaser.GameObjects.Graphics {

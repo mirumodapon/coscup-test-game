@@ -4,6 +4,19 @@ import { EventBus } from '../EventBus'
 
 const SKEW = 0.6
 
+function randomColor() {
+  const x = Math.random();
+  if (x < 0.25) {
+    return 0xF8C0C8;
+  }
+  else if (x < 0.5) {
+    return 0xD3BBDD;
+  }
+  else {
+    return 0xECE3F0;
+  }
+}
+
 export class Game extends Scene {
   constructor() {
     super('Game')
@@ -26,22 +39,13 @@ export class Game extends Scene {
     const startY = screenHeight - spacingY * (rows + 1)
     const startX = 0
 
-    const center = Math.round(cols / 2)
-    for (let row = -6; row < 0; row++) {
-      const x = startX + center * spacingX
-      const y = startY + row * spacingY * 2
-
-      const hex = new HexTile(this, x, y, size, 0xffda3a, SKEW)
-      this.add.existing(hex)
-    }
-
     for (let row = 0; row < rows; row++) {
       for (let col = 0; col < cols; col++) {
         const offsetX = (row % 2) * size * 1.5
         const x = startX + col * spacingX + offsetX
         const y = startY + row * spacingY
 
-        const hex = new HexTile(this, x, y, size, 0x3aff3a, SKEW)
+        const hex = new HexTile(this, x, y, size, randomColor(), SKEW)
         this.add.existing(hex)
       }
     }

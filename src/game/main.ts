@@ -13,7 +13,7 @@ const config: Types.Core.GameConfig = {
     autoCenter: Phaser.Scale.CENTER_BOTH,
   },
   parent: "game-container",
-  backgroundColor: "#c3c3c3",
+  backgroundColor: "#EFE7D3",
   scene: [MainGame],
 }
 
