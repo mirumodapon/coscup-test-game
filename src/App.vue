@@ -15,7 +15,8 @@ import PhaserGame from './PhaserGame.vue'
 .bottom-bar {
   position: absolute;
   display: flex;
-  top: 0;
+  bottom: 0;
+  height: 40px;
   width: 100%;
   z-index: 10;
 }
