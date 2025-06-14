@@ -56,6 +56,8 @@ export class HexTile extends Phaser.GameObjects.Container {
   private color: number
   private skew: number
   private hexGraphics: Phaser.GameObjects.Graphics
+  centerX: number
+  centerY: number
 
   constructor(
     scene: Phaser.Scene,
@@ -69,10 +71,13 @@ export class HexTile extends Phaser.GameObjects.Container {
     this.size = size
     this.color = color
     this.skew = skew
+    this.centerX = x
+    this.centerY = y
 
     this.hexGraphics = this.createHex()
     this.add(this.hexGraphics)
     this.setSize(size * 2, Math.sqrt(3) * size * skew)
+    this.setDepth(this.y);
 
     scene.tweens.add({
       targets: this,
