@@ -16,16 +16,6 @@ function randomColor() {
   }
 }
 
-function shiftCamera(scene: Phaser.Scene, amount: number) {
-  const cam = scene.cameras.main;
-  scene.tweens.add({
-    targets: cam,
-    scrollY: cam.scrollY + amount,
-    duration: 1000,
-    ease: 'Sine.easeInOut'
-  });
-}
-
 export class Game extends Scene {
   private contentContainer!: Phaser.GameObjects.Container
   private dragStartY = 0
@@ -112,8 +102,12 @@ export class Game extends Scene {
     const tile = new HexTile(this, pos.x, pos.y, GameData.hexSize, randomColor(), GameData.skew)
     this.contentContainer.addAt(tile, 0)
     GameData.path.push(tile)
-    if ( pos.y < GameData.screenHeight * 0.3 ) {
-      shiftCamera(this, pos.y - lastTile.centerY);
-    }
+    this.contentContainer.y = GameData.screenHeight * 0.3 - lastTile.y
+    this.tweens.add({
+      targets: this.contentContainer,
+      y: GameData.screenHeight * 0.3 - pos.y,
+      duration: 1000,
+      ease: 'Sine.easeInOut',
+    });
   }
 }
