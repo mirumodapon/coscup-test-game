@@ -1,4 +1,4 @@
-import { HexTile } from "./TileData";
+import { HexTile } from "./TileData"
 
 export const GameData = {
   skew: 0.6,
@@ -16,4 +16,4 @@ export const GameData = {
   get tilePos() {
     return [this.hexWidth * 0.75, this.hexWidth * 1.5, this.hexWidth * 2.25]
   }
-};
+}

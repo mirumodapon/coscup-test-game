@@ -77,7 +77,7 @@ export class HexTile extends Phaser.GameObjects.Container {
     this.hexGraphics = this.createHex()
     this.add(this.hexGraphics)
     this.setSize(size * 2, Math.sqrt(3) * size * skew)
-    this.setDepth(this.y);
+    this.setDepth(this.y)
 
     scene.tweens.add({
       targets: this,
@@ -85,7 +85,45 @@ export class HexTile extends Phaser.GameObjects.Container {
       ease: 'Bounce',
       duration: 1000,
       delay: Phaser.Math.Between(0, 300),
-    });
+    })
+
+    this.setInteractive()
+
+    this.on('pointerdown', () => {
+      this.scene.tweens.add({
+        targets: this,
+        y: this.y + 10,
+        duration: 100,
+        ease: 'Quad.easeOut'
+      })
+    })
+
+    this.on('pointerup', () => {
+      this.scene.tweens.add({
+        targets: this,
+        y: this.centerY,
+        duration: 100,
+        ease: 'Quad.easeOut'
+      })
+    })
+
+    this.on('pointerout', () => {
+      this.scene.tweens.add({
+        targets: this,
+        y: this.centerY,
+        duration: 100,
+        ease: 'Quad.easeOut'
+      })
+    })
+
+    this.on('pointerupoutside', () => {
+      this.scene.tweens.add({
+        targets: this,
+        y: this.centerY,
+        duration: 100,
+        ease: 'Quad.easeOut'
+      })
+    })
   }
 
   private createHex(): Phaser.GameObjects.Graphics {

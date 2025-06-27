@@ -8,9 +8,6 @@ function randomColor() {
   if (x < 0.25) {
     return 0xF8C0C8
   }
-  else if (x < 0.5) {
-    return 0xD3BBDD
-  }
   else {
     return 0xECE3F0
   }
@@ -50,7 +47,7 @@ export class Game extends Scene {
         const x = startX + col * spacingX + offsetX
         const y = startY + row * spacingY
 
-        const tile = new HexTile(this, x, y, GameData.hexSize, randomColor(), GameData.skew)
+        const tile = new HexTile(this, x, y, GameData.hexSize, 0xD3BBDD, GameData.skew)
         this.contentContainer.add(tile)
 
         if (row === 0 && col === center) {
@@ -120,6 +117,6 @@ export class Game extends Scene {
       y: Math.max(GameData.screenHeight * 0.5 - pos.y, -GameData.bottomBarHeight),
       duration: 1000,
       ease: 'Sine.easeInOut',
-    });
+    })
   }
 }
