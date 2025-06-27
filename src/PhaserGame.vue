@@ -4,6 +4,7 @@ import { onMounted, onUnmounted, ref } from 'vue'
 import { EventBus } from './game/EventBus'
 import { GameData } from './game/GameData'
 import StartGame from './game/main'
+import banner from '../public/assets/banner.png'
 
 const emit = defineEmits(['current-active-scene'])
 // Save the current scene instance
@@ -47,8 +48,19 @@ function closePopup() {
   <div class="popup-overlay" id="popup" v-if="showPopup">
     <div class="popup-content">
       <button class="popup-close" id="popupClose" @click="closePopup()">x</button>
-      <h2>{{ popupData?.type }}</h2>
-      <p>This is a nice popup over the game canvas.</p>
+      <div v-if="popupData?.type === 'Base'">
+        <img
+          alt="COSCUP x RubyConf Taiwan 2025 banner"
+          :src="banner"
+          class="Banner"
+        >
+      </div>
+      <div v-else-if="popupData?.type === 'Sponsor'">
+        <h2>Sponsor</h2>
+      </div>
+      <div v-else-if="popupData?.type === 'Venue'">
+        <h2>Venue</h2>
+      </div>
     </div>
   </div>
 </template>
@@ -78,7 +90,7 @@ function closePopup() {
   background-color: white;
   color: black;
   border-radius: 16px;
-  padding: 24px 32px;
+  padding: 24px;
   box-shadow: 0 12px 24px rgba(0, 0, 0, 0.2);
   max-width: 70%;
   text-align: center;
@@ -96,5 +108,9 @@ function closePopup() {
   color: white;
   font-size: 20px;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+.Banner {
+  width: 100%;
 }
 </style>
