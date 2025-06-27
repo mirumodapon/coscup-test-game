@@ -1,4 +1,6 @@
 import Phaser from 'phaser'
+import { EventBus } from './EventBus'
+import { GameData } from './GameData'
 
 function hexToHSL(hex: number): { h: number; s: number; l: number } {
   const r = ((hex >> 16) & 0xff) / 255
@@ -99,6 +101,8 @@ export class HexTile extends Phaser.GameObjects.Container {
     this.setInteractive()
 
     this.on('pointerdown', () => {
+      if (GameData.popupOpen) return
+
       this.scene.tweens.add({
         targets: this,
         y: this.y + 10,
@@ -108,11 +112,17 @@ export class HexTile extends Phaser.GameObjects.Container {
     })
 
     this.on('pointerup', () => {
+      if (GameData.popupOpen) return
+      
       this.scene.tweens.add({
         targets: this,
         y: this.centerY,
         duration: 100,
         ease: 'Quad.easeOut'
+      })
+      GameData.popupOpen = true
+      EventBus.emit('tile-clicked', {
+        type: this.type,
       })
     })
 

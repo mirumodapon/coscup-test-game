@@ -74,6 +74,7 @@ export class Game extends Scene {
 
     // This is for testing
     this.input.keyboard?.on('keydown-SPACE', () => {
+      if (GameData.popupOpen) return
       this.addNextHexTile()
     })
 
