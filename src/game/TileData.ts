@@ -64,12 +64,21 @@ export class HexTile extends Phaser.GameObjects.Container {
     x: number,
     y: number,
     size: number,
-    color: number,
+    type: string,
     skew: number = 0.6
   ) {
     super(scene, x, y-100)
     this.size = size
-    this.color = color
+    this.type = type
+    if (this.type === "Base") {
+      this.color = 0xD3BBDD
+    }
+    else if (this.type === "Sponsor") {
+      this.color = 0xF8C0C8
+    }
+    else if (this.type === "Venue") {
+      this.color = 0xECE3F0
+    }
     this.skew = skew
     this.centerX = x
     this.centerY = y

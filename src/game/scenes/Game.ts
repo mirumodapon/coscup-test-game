@@ -3,13 +3,13 @@ import { HexTile } from '../TileData'
 import { EventBus } from '../EventBus'
 import { GameData } from '../GameData'
 
-function randomColor() {
+function randomType() {
   const x = Math.random()
   if (x < 0.25) {
-    return 0xF8C0C8
+    return "Sponsor"
   }
   else {
-    return 0xECE3F0
+    return "Venue"
   }
 }
 
@@ -47,7 +47,7 @@ export class Game extends Scene {
         const x = startX + col * spacingX + offsetX
         const y = startY + row * spacingY
 
-        const tile = new HexTile(this, x, y, GameData.hexSize, 0xD3BBDD, GameData.skew)
+        const tile = new HexTile(this, x, y, GameData.hexSize, "Base", GameData.skew)
         this.contentContainer.add(tile)
 
         if (row === 0 && col === center) {
@@ -108,7 +108,7 @@ export class Game extends Scene {
   addNextHexTile() {
     const lastTile = GameData.path[GameData.path.length - 1]
     const pos = this.chooseNextPos(lastTile.centerX, lastTile.centerY)
-    const tile = new HexTile(this, pos.x, pos.y, GameData.hexSize, randomColor(), GameData.skew)
+    const tile = new HexTile(this, pos.x, pos.y, GameData.hexSize, randomType(), GameData.skew)
     this.contentContainer.addAt(tile, 0)
     GameData.path.push(tile)
     this.contentContainer.y = Math.max(GameData.screenHeight * 0.5 - lastTile.y, -GameData.bottomBarHeight)
