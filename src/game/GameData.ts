@@ -13,10 +13,7 @@ export const GameData = {
   get hexHeight() {
     return Math.sqrt(3) * this.hexSize * this.skew
   },
-  get minX() {
-    return this.hexWidth * 0.75
-  },
-  get maxX() {
-    return this.screenWidth - this.hexWidth
+  get tilePos() {
+    return [this.hexWidth * 0.75, this.hexWidth * 1.5, this.hexWidth * 2.25]
   }
 };
