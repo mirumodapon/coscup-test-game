@@ -6,7 +6,7 @@ export const GameData = {
   screenWidth: 0,
   screenHeight: 0,
   hexSize: 0,
-  bottomBarHeight: 40,
+  bottomBarHeight: 70,
   popupOpen: false,
   get hexWidth() {
     return this.hexSize * 2
