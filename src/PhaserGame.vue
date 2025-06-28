@@ -9,11 +9,27 @@ const emit = defineEmits(['current-active-scene'])
 // Save the current scene instance
 const scene = ref()
 const game = ref()
-const showPopup = ref(false);
-const popupData = ref<{ type: string } | null>(null);
+const showPopup = ref(false)
+const popupData = ref<{ type: string } | null>(null)
+const sponsorData = ref()
 
 onMounted(() => {
   game.value = StartGame('game-container')
+
+  const sponsorDataUrl = 'https://coscup.org/2024/json/sponsor.json'
+  fetch(sponsorDataUrl)
+    .then(res => res.json())
+    .then(json => {
+      sponsorData.value = json.reduce(
+        (acc, item) => {
+          acc[item.id] = item
+          return acc
+        }, {}
+      )
+    })
+    .catch(err => {
+      console.error('Failed to load JSON:', err)
+    })
 
   EventBus.on('current-scene-ready', (sceneInstance: Phaser.Scene) => {
     emit('current-active-scene', sceneInstance)
@@ -51,11 +67,15 @@ function closePopup() {
         <img
           alt="COSCUP x RubyConf Taiwan 2025 banner"
           src="../public/assets/banner-mobile.png"
-          class="Banner"
         >
       </div>
-      <div v-else-if="popupData?.type === 'Sponsor'">
-        <h2>Sponsor</h2>
+      <div v-else-if="popupData?.type === 'Sponsor'" class="Sponsor">
+        <h2>{{ sponsorData[popupData?.ID].name['zh-TW'] }}</h2>
+        <img
+          :alt="sponsorData[popupData?.ID].name['zh-TW']"
+          :src="'https://coscup.org/' + sponsorData[popupData?.ID].image"
+        >
+        <p>{{ sponsorData[popupData?.ID].intro['zh-TW'] }}</p>
       </div>
       <div v-else-if="popupData?.type === 'Venue'">
         <h2>Venue</h2>
@@ -109,7 +129,12 @@ function closePopup() {
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
 }
 
-.Banner {
+img {
   width: 100%;
+}
+
+.Sponsor h2,
+.Sponsor p {
+  text-align: left;
 }
 </style>

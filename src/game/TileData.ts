@@ -53,24 +53,29 @@ function getSideColorsFromTopColor(topColor: number) {
   }
 }
 
+interface HexTileOptions {
+  scene: Phaser.Scene
+  x: number
+  y: number
+  size: number
+  type: string
+  ID?: string
+  skew?: number
+}
+
 export class HexTile extends Phaser.GameObjects.Container {
   private size: number
   private color: number
   private skew: number
   private hexGraphics: Phaser.GameObjects.Graphics
+  private ID: string
   centerX: number
   centerY: number
 
-  constructor(
-    scene: Phaser.Scene,
-    x: number,
-    y: number,
-    size: number,
-    type: string,
-    skew: number = 0.6
-  ) {
+  constructor({ scene, x, y, size, type, ID = "", skew = 0.6 }: HexTileOptions) {
     super(scene, x, y-100)
     this.size = size
+    this.ID = ID
     this.type = type
     if (this.type === "Base") {
       this.color = 0xD3BBDD
@@ -123,6 +128,7 @@ export class HexTile extends Phaser.GameObjects.Container {
       GameData.popupOpen = true
       EventBus.emit('tile-clicked', {
         type: this.type,
+        ID: this.ID
       })
     })
 

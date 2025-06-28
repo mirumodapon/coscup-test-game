@@ -3,14 +3,27 @@ import { HexTile } from '../TileData'
 import { EventBus } from '../EventBus'
 import { GameData } from '../GameData'
 
-function randomType() {
-  const x = Math.random()
-  if (x < 0.25) {
-    return "Sponsor"
+function randomData(scene: Phaser.Scene, x: number, y: number) {
+  const ret = {
+    scene: scene,
+    x: x,
+    y: y,
+    size: GameData.hexSize,
+    skew: GameData.skew,
+    type: '',
+    ID: ''
+  }
+
+  const r = Math.random()
+  if (r < 0.25) {
+    ret.type = 'Sponsor'
+    ret.ID = 'E-Sun-Bank'
   }
   else {
-    return "Venue"
+    ret.type = 'Venue'
+    ret.ID = 'TR212'
   }
+  return ret
 }
 
 export class Game extends Scene {
@@ -47,7 +60,14 @@ export class Game extends Scene {
         const x = startX + col * spacingX + offsetX
         const y = startY + row * spacingY
 
-        const tile = new HexTile(this, x, y, GameData.hexSize, "Base", GameData.skew)
+        const tile = new HexTile({
+          scene: this,
+          x: x,
+          y: y,
+          size: GameData.hexSize,
+          type: "Base",
+          skew: GameData.skew
+        })
         this.contentContainer.add(tile)
 
         if (row === 0 && col === center) {
@@ -109,7 +129,7 @@ export class Game extends Scene {
   addNextHexTile() {
     const lastTile = GameData.path[GameData.path.length - 1]
     const pos = this.chooseNextPos(lastTile.centerX, lastTile.centerY)
-    const tile = new HexTile(this, pos.x, pos.y, GameData.hexSize, randomType(), GameData.skew)
+    const tile = new HexTile(randomData(this, pos.x, pos.y))
     this.contentContainer.addAt(tile, 0)
     GameData.path.push(tile)
     this.contentContainer.y = Math.max(GameData.screenHeight * 0.5 - lastTile.y, -GameData.bottomBarHeight)
