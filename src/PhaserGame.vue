@@ -136,5 +136,7 @@ img {
 .Sponsor h2,
 .Sponsor p {
   text-align: left;
+  max-height: 50vh;
+  overflow-y: auto;
 }
 </style>
