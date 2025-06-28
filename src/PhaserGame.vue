@@ -10,7 +10,7 @@ const emit = defineEmits(['current-active-scene'])
 const scene = ref()
 const game = ref()
 const showPopup = ref(false)
-const popupData = ref<{ type: string } | null>(null)
+const popupData = ref<{ type: string, ID: string } | null>(null)
 const sponsorData = ref()
 const comments = ref()
 const newMessage = ref('')
@@ -23,7 +23,7 @@ onMounted(() => {
     .then(res => res.json())
     .then(json => {
       sponsorData.value = json.reduce(
-        (acc, item) => {
+        (acc: any, item: any) => {
           acc[item.id] = item
           return acc
         }, {}
@@ -39,7 +39,7 @@ onMounted(() => {
     scene.value = sceneInstance
   })
 
-  EventBus.on('tile-clicked', (data:{ type: string }) => {
+  EventBus.on('tile-clicked', (data:{ type: string, ID: string }) => {
     showPopup.value = true
     popupData.value = data
   })
