@@ -4,7 +4,6 @@ import { onMounted, onUnmounted, ref } from 'vue'
 import { EventBus } from './game/EventBus'
 import { GameData } from './game/GameData'
 import StartGame from './game/main'
-import banner from '../public/assets/banner.png'
 
 const emit = defineEmits(['current-active-scene'])
 // Save the current scene instance
@@ -51,7 +50,7 @@ function closePopup() {
       <div v-if="popupData?.type === 'Base'">
         <img
           alt="COSCUP x RubyConf Taiwan 2025 banner"
-          :src="banner"
+          src="../public/assets/banner-mobile.png"
           class="Banner"
         >
       </div>
