@@ -1,9 +1,9 @@
 <script setup lang="ts">
 import type Phaser from 'phaser'
 import { onMounted, onUnmounted, ref, watch, computed } from 'vue'
-import { EventBus } from './game/EventBus'
-import { GameData } from './game/GameData'
-import StartGame from './game/main'
+import { EventBus } from '../game/EventBus'
+import { GameData } from '../game/GameData'
+import StartGame from '../game/main'
 
 const emit = defineEmits(['current-active-scene'])
 // Save the current scene instance
