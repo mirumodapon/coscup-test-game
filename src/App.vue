@@ -91,27 +91,16 @@ const goToGameScene = () => {
   object-fit: contain;
 }
 
-.button-game {
-  transform: translateY(-10px);
-}
-
-.button-game img {
-  width: 45px;
-  height: 45px;
-  background-color: #ffcc00;
-  border-radius: 50%;
-  padding: 5px;
-  box-shadow: 0 3px 6px rgba(0, 0, 0, 0.2);
-}
-
+.button-game,
 .button-qrcode {
-  transform: translateY(-10px);
+  transform: translateY(-11px);
 }
 
+.button-game img,
 .button-qrcode img {
-  width: 45px;
-  height: 45px;
-  background-color: #B9E3F5; /* #E08C99 深粉色 #9A82B0 深紫色 #B9E3F5 淺藍色 */
+  width: 43px;
+  height: 43px;
+  background-color: #f9d33a; /* #E08C99 深粉色 #9A82B0 深紫色 #B9E3F5 淺藍色 */
   border-radius: 50%;
   padding: 5px;
   box-shadow: 0 3px 6px rgba(0, 0, 0, 0.2);
