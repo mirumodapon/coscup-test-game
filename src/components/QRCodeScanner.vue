@@ -1,98 +1,60 @@
 <script setup lang="ts">
-import { ref, onMounted, onUnmounted } from 'vue';
-import { Html5QrcodeScanner } from 'html5-qrcode';
-import { useRouter } from 'vue-router';
+import { ref, onMounted, watch } from 'vue'
+import { Html5Qrcode } from 'html5-qrcode'
 
-const qrCodeContainerId = 'qr-code-reader';
-const qrCodeMessage = ref('掃描行動條碼！加入更多板塊吧～');
-const router = useRouter();
+const qrcodeRegionId = 'html5qr-code-full-region'
 
-let html5QrcodeScanner: Html5QrcodeScanner | null = null;
+const props = defineProps<{
+  qrCodeSuccessCallback: (decodedText: string) => void
+}>()
 
-const onScanSuccess = (decodedText: string, decodedResult: any) => {
-  console.log(`QR Code 掃描成功：${decodedText}`);
-  qrCodeMessage.value = `掃描結果：${decodedText}`;
- 
-  if (html5QrcodeScanner) {
-    html5QrcodeScanner.clear();
-    router.push({ name: 'scan-result', params: { data: decodedText } });
+const cameraId = ref<string | null>(null)
+const qrScanner = ref<Html5Qrcode | null>(null)
+
+const config = {
+  fps: 10,
+  qrbox: { width: 200, height: 200 },
+  aspectRatio: 1,
+}
+
+onMounted(async () => {
+  try {
+    const devices = await Html5Qrcode.getCameras()
+    if (devices && devices.length > 0) {
+      cameraId.value = devices[0].id
+    }
+  } catch (error) {
+    console.log('permission denied')
   }
-};
+})
 
-const onScanFailure = (error: string) => {
-  console.warn(`QR Code 掃描失敗：${error}`);
-};
-
-onMounted(() => {
-  html5QrcodeScanner = new Html5QrcodeScanner(
-    qrCodeContainerId,
-    {
-      fps: 10,
-      qrbox: { width: 250, height: 250 },
-      aspectRatio: 1.0,
-    },
-    /* verbose= */ false
-  );
-  html5QrcodeScanner.render(onScanSuccess, onScanFailure);
-});
-
-// onUnmounted(() => {
-//   if (html5QrcodeScanner) {
-//     html5QrcodeScanner.clear()
-//       .then(() => {
-//         console.log("QR Code 掃描器已停止並清理。");
-//       })
-//       .catch((error) => {
-//         console.error("停止 QR Code 掃描器時出錯：", error);
-//       });
-//   }
-// });
+watch(cameraId, async (newCameraId) => {
+  if (newCameraId) {
+    qrScanner.value = new Html5Qrcode(qrcodeRegionId)
+    try {
+      await qrScanner.value.clear()
+      await qrScanner.value.start(
+        { facingMode: 'environment' },
+        config,
+        props.qrCodeSuccessCallback,
+        () => {}
+      )
+    } catch (error) {
+      console.error('Failed to start QR Scanner:', error)
+    }
+  }
+})
 </script>
 
 <template>
-    <div id="qr-code-scanner-page">
-        <p>{{ qrCodeMessage }}</p>
-        <div :id="qrCodeContainerId" style="width: 100%; height: 70%; margin: 20px auto;"></div>
+  <div>
+    <div
+      v-if="cameraId"
+      :id="qrcodeRegionId"
+      style="width: 300px; height: 300px;"
+    ></div>
+    <div v-else>
+      相機初始化中或權限未開啟...
     </div>
+  </div>
 </template>
-
-<style scoped>
-#qr-code-scanner-page {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: flex-start;
-  height: 100vh;
-  width: 100vh;
-  padding-top: 60px;
-  background-color: #f0f0f0;
-  color: #333;
-}
-
-p {
-  margin-bottom: 30px;
-  font-size: 1.1em;
-}
-
-/* 可以為掃描框添加一些樣式 */
-#qr-code-reader {
-  border: 2px solid #007bff;
-  border-radius: 8px;
-  overflow: hidden; /* 確保內容不會溢出邊框 */
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-}
-
-/* 針對 html5-qrcode 內部生成的一些元素可能需要微調 */
-.html5-qrcode-button {
-    /* 掃描器內部的按鈕樣式 */
-    background-color: #007bff;
-    color: white;
-    border: none;
-    padding: 8px 15px;
-    border-radius: 5px;
-    cursor: pointer;
-}
-.html5-qrcode-button:hover {
-    background-color: #0056b3;
-}
-</style>

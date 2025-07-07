@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import { useRouter, useRoute } from 'vue-router'
+import { Icon } from '@iconify/vue'
 import './style.css'
 
 const router = useRouter()
@@ -26,23 +27,25 @@ const goToGameScene = () => {
   <router-view />
 
   <div class="bottom-bar">
-    <button class="button" @click="goToSponsorList">
-      <img src="./icons/sponsor.png" alt="贊助商列表" />
+    <button class="button button-sponsor" @click="goToSponsorList">
+       <Icon icon="mdi:hand-heart-outline" class="icon" />
+       <!-- <Icon icon="mdi:account-cash-outline" class="icon" /> -->
       <span>贊助商列表</span>
     </button>
 
     <button class="button button-game" v-if="route.name !== 'game'" @click="goToGameScene">
-      <img src="./icons/game.png" alt="遊戲畫面" />
+       <Icon icon="ph:game-controller" class="icon" />
       <span>遊戲畫面</span>
     </button>
 
     <button class="button button-qrcode" v-else @click="scanQRCode">
-      <img src="./icons/scan.png" alt="掃描 QR Code" />
+       <Icon icon="tabler:scan" class="icon" />
       <span>掃描 QR Code</span>
     </button>
 
-    <button class="button" @click="goToProfile">
-      <img src="./icons/user.png" alt="我的資料" />
+    <button class="button button-profile" @click="goToProfile">
+       <!-- <Icon icon="carbon:user-avatar" class="icon" /> -->
+       <Icon icon="mdi:user-circle-outline" class="icon" />
       <span>我的資料</span>
     </button>
   </div>
@@ -79,25 +82,31 @@ const goToGameScene = () => {
   transition: transform 0.2s ease-in-out, color 0.2s ease-in-out;
 }
 
-.button:hover {
+.button-game,
+.button-qrcode {
+  transform: translateY(-10px);
+}
+
+.button-sponsor:hover,
+.button-profile:hover {
   transform: translateY(-2px);
   color: #007bff;
 }
 
-.button img {
+.button-game:hover span,
+.button-qrcode:hover span {
+  color: #007bff;
+}
+
+.button .icon {
   width: 32px;
   height: 32px;
   border-radius: 8px;
   object-fit: contain;
 }
 
-.button-game,
-.button-qrcode {
-  transform: translateY(-11px);
-}
-
-.button-game img,
-.button-qrcode img {
+.button-game .icon,
+.button-qrcode .icon {
   width: 43px;
   height: 43px;
   background-color: #f9d33a; /* #E08C99 深粉色 #9A82B0 深紫色 #B9E3F5 淺藍色 */
