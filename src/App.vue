@@ -29,7 +29,6 @@ const goToGameScene = () => {
   <div class="bottom-bar">
     <button class="button button-sponsor" @click="goToSponsorList">
        <Icon icon="mdi:hand-heart-outline" class="icon" />
-       <!-- <Icon icon="mdi:account-cash-outline" class="icon" /> -->
       <span>贊助商列表</span>
     </button>
 
@@ -44,9 +43,8 @@ const goToGameScene = () => {
     </button>
 
     <button class="button button-profile" @click="goToProfile">
-       <!-- <Icon icon="carbon:user-avatar" class="icon" /> -->
        <Icon icon="mdi:user-circle-outline" class="icon" />
-      <span>我的資料</span>
+      <span>個人頁面</span>
     </button>
   </div>
 </template>

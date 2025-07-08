@@ -183,7 +183,7 @@ watch([showPopup, popupData], async ([isOpen, data]) => {
       <div v-if="popupData?.type === 'Base'">
         <img
           alt="COSCUP x RubyConf Taiwan 2025 banner"
-          src="../public/assets/banner-mobile.png"
+          src="../../public/assets/banner-mobile.png"
         >
       </div>
       <div v-else-if="popupData?.type === 'Sponsor'" class="Sponsor">
