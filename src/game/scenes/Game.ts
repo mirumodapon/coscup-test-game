@@ -3,17 +3,27 @@ import { HexTile } from '../TileData'
 import { EventBus } from '../EventBus'
 import { GameData } from '../GameData'
 
-function randomColor() {
-  const x = Math.random()
-  if (x < 0.25) {
-    return 0xF8C0C8
+function randomData(scene: Phaser.Scene, x: number, y: number) {
+  const ret = {
+    scene: scene,
+    x: x,
+    y: y,
+    size: GameData.hexSize,
+    skew: GameData.skew,
+    type: '',
+    ID: ''
   }
-  else if (x < 0.5) {
-    return 0xD3BBDD
+
+  const r = Math.random()
+  if (r < 0.25) {
+    ret.type = 'Sponsor'
+    ret.ID = 'Andes'
   }
   else {
-    return 0xECE3F0
+    ret.type = 'Venue'
+    ret.ID = 'TR212'
   }
+  return ret
 }
 
 export class Game extends Scene {
@@ -32,12 +42,12 @@ export class Game extends Scene {
   create() {
     GameData.screenWidth = this.cameras.main.width
     GameData.screenHeight = this.cameras.main.height
-    GameData.hexSize = Math.min(GameData.screenHeight / 10, GameData.screenWidth / 8)
+    GameData.hexSize = GameData.screenWidth / 6
 
     const spacingX = GameData.hexWidth * 1.5
     const spacingY = GameData.hexHeight * 0.5
     const cols = GameData.screenWidth / spacingX + 1
-    const rows = 40
+    const rows = 4
     const center = Math.round(cols / 2) - 1
     const startY = GameData.screenHeight - spacingY * (rows + 1)
     const startX = 0
@@ -50,7 +60,14 @@ export class Game extends Scene {
         const x = startX + col * spacingX + offsetX
         const y = startY + row * spacingY
 
-        const tile = new HexTile(this, x, y, GameData.hexSize, randomColor(), GameData.skew)
+        const tile = new HexTile({
+          scene: this,
+          x: x,
+          y: y,
+          size: GameData.hexSize,
+          type: "Base",
+          skew: GameData.skew
+        })
         this.contentContainer.add(tile)
 
         if (row === 0 && col === center) {
@@ -68,7 +85,7 @@ export class Game extends Scene {
       if (pointer.isDown) {
         const deltaY = pointer.y - this.dragStartY
         const lastTile = GameData.path[GameData.path.length - 1]
-        const maxY =  GameData.screenHeight * 0.3 - lastTile.centerY
+        const maxY =  GameData.screenHeight * 0.5 - lastTile.centerY
         this.contentContainer.y = this.containerStartY + deltaY
 
         this.contentContainer.y = Phaser.Math.Clamp(this.contentContainer.y, -GameData.bottomBarHeight , maxY)
@@ -77,6 +94,7 @@ export class Game extends Scene {
 
     // This is for testing
     this.input.keyboard?.on('keydown-SPACE', () => {
+      if (GameData.popupOpen) return
       this.addNextHexTile()
     })
 
@@ -84,11 +102,23 @@ export class Game extends Scene {
   }
 
   chooseNextPos(curX: number, curY: number) {
+    let noLeft = false
+    let noRight = false
+
+    if (GameData.path.length === 1) {
+      return {x: curX, y: curY - GameData.hexHeight}
+    }
+    else {
+      const last_curX = GameData.path[GameData.path.length - 2].centerX
+      noLeft = last_curX < curX
+      noRight = last_curX > curX
+    }
+
     const r = Math.random()
-    if (r < 0.3 && curX - GameData.hexWidth * 0.75 >= GameData.minX) {
+    if (r < 0.35 && curX != GameData.tilePos[0] && !noLeft) {
       return {x: curX - GameData.hexWidth * 0.75, y: curY - GameData.hexHeight * 0.5}
     }
-    else if (r < 0.6 && curX + GameData.hexWidth * 0.75 <= GameData.maxX) {
+    else if (r < 0.7 && curX != GameData.tilePos[2] && !noRight) {
       return {x: curX + GameData.hexWidth * 0.75, y: curY - GameData.hexHeight * 0.5}
     }
     else {
@@ -99,15 +129,15 @@ export class Game extends Scene {
   addNextHexTile() {
     const lastTile = GameData.path[GameData.path.length - 1]
     const pos = this.chooseNextPos(lastTile.centerX, lastTile.centerY)
-    const tile = new HexTile(this, pos.x, pos.y, GameData.hexSize, randomColor(), GameData.skew)
+    const tile = new HexTile(randomData(this, pos.x, pos.y))
     this.contentContainer.addAt(tile, 0)
     GameData.path.push(tile)
-    this.contentContainer.y = GameData.screenHeight * 0.3 - lastTile.y
+    this.contentContainer.y = Math.max(GameData.screenHeight * 0.5 - lastTile.y, -GameData.bottomBarHeight)
     this.tweens.add({
       targets: this.contentContainer,
-      y: GameData.screenHeight * 0.3 - pos.y,
+      y: Math.max(GameData.screenHeight * 0.5 - pos.y, -GameData.bottomBarHeight),
       duration: 1000,
       ease: 'Sine.easeInOut',
-    });
+    })
   }
 }

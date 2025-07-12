@@ -1,4 +1,6 @@
 import Phaser from 'phaser'
+import { EventBus } from './EventBus'
+import { GameData } from './GameData'
 
 function hexToHSL(hex: number): { h: number; s: number; l: number } {
   const r = ((hex >> 16) & 0xff) / 255
@@ -51,25 +53,39 @@ function getSideColorsFromTopColor(topColor: number) {
   }
 }
 
+interface HexTileOptions {
+  scene: Phaser.Scene
+  x: number
+  y: number
+  size: number
+  type: string
+  ID?: string
+  skew?: number
+}
+
 export class HexTile extends Phaser.GameObjects.Container {
   private size: number
   private color: number
   private skew: number
   private hexGraphics: Phaser.GameObjects.Graphics
+  private ID: string
   centerX: number
   centerY: number
 
-  constructor(
-    scene: Phaser.Scene,
-    x: number,
-    y: number,
-    size: number,
-    color: number,
-    skew: number = 0.6
-  ) {
+  constructor({ scene, x, y, size, type, ID = "", skew = 0.6 }: HexTileOptions) {
     super(scene, x, y-100)
     this.size = size
-    this.color = color
+    this.ID = ID
+    this.type = type
+    if (this.type === "Base") {
+      this.color = 0xD3BBDD
+    }
+    else if (this.type === "Sponsor") {
+      this.color = 0xF8C0C8
+    }
+    else if (this.type === "Venue") {
+      this.color = 0xECE3F0
+    }
     this.skew = skew
     this.centerX = x
     this.centerY = y
@@ -77,7 +93,7 @@ export class HexTile extends Phaser.GameObjects.Container {
     this.hexGraphics = this.createHex()
     this.add(this.hexGraphics)
     this.setSize(size * 2, Math.sqrt(3) * size * skew)
-    this.setDepth(this.y);
+    this.setDepth(this.y)
 
     scene.tweens.add({
       targets: this,
@@ -85,7 +101,54 @@ export class HexTile extends Phaser.GameObjects.Container {
       ease: 'Bounce',
       duration: 1000,
       delay: Phaser.Math.Between(0, 300),
-    });
+    })
+
+    this.setInteractive()
+
+    this.on('pointerdown', () => {
+      if (GameData.popupOpen) return
+
+      this.scene.tweens.add({
+        targets: this,
+        y: this.y + 10,
+        duration: 100,
+        ease: 'Quad.easeOut'
+      })
+    })
+
+    this.on('pointerup', () => {
+      if (GameData.popupOpen) return
+      
+      this.scene.tweens.add({
+        targets: this,
+        y: this.centerY,
+        duration: 100,
+        ease: 'Quad.easeOut'
+      })
+      GameData.popupOpen = true
+      EventBus.emit('tile-clicked', {
+        type: this.type,
+        ID: this.ID
+      })
+    })
+
+    this.on('pointerout', () => {
+      this.scene.tweens.add({
+        targets: this,
+        y: this.centerY,
+        duration: 100,
+        ease: 'Quad.easeOut'
+      })
+    })
+
+    this.on('pointerupoutside', () => {
+      this.scene.tweens.add({
+        targets: this,
+        y: this.centerY,
+        duration: 100,
+        ease: 'Quad.easeOut'
+      })
+    })
   }
 
   private createHex(): Phaser.GameObjects.Graphics {
