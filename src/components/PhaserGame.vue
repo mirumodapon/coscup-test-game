@@ -2,7 +2,7 @@
 import type Phaser from 'phaser'
 import { onMounted, onUnmounted, ref, watch, computed } from 'vue'
 import { EventBus } from '../game/EventBus'
-import { GameData } from '../game/GameData'
+import { GameData } from '../data/GameData.ts'
 import StartGame from '../game/main'
 
 const emit = defineEmits(['current-active-scene'])

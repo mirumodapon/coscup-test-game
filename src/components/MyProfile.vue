@@ -1,24 +1,13 @@
 <script setup lang="ts">
 import { ref } from 'vue'
 import { Icon } from '@iconify/vue'
+import { achivements } from '../data/AchivementsData';
 
 const player = ref({
   avatar: '/assets/小啄_01.png',
   nickname: '鱈魚',
   signature: '嗨你好',
-  medals: [
-    { id: 1, icon: 'mdi:medal', label: '只是路過' },  // 聊天室發 1 則留言
-    { id: 2, icon: 'tabler:award', label: '還沒想到' },  //聊天室發 10 則留言
-    { id: 3, icon: 'mdi:trophy-award', label: '意見領袖' },  //聊天室發 30 則留言
-    { id: 4, icon: 'fluent:trophy-16-filled', label: '早起的鳥兒有蟲吃' },  //參加了開幕活動
-    { id: 5, icon: 'mdi:flag-checkered', label: '最後一哩路' },  //參加了閉幕活動
-    { id: 6, icon: 'material-symbols:star', label: '有始有終' },  //有參加開幕與閉幕
-    { id: 7, icon: 'mdi:crown', label: '???' },
-    { id: 8, icon: 'mdi:shield', label: '???' },
-    { id: 9, icon: 'mdi:sword', label: '???' },
-    { id: 10, icon: 'mdi:lightning-bolt', label: '???' },
-    { id: 11, icon: 'game-icons:achievement', label: '???' },  
-  ]
+  achivements,
 });
 
 const editSignature = () => {
@@ -47,10 +36,10 @@ const editSignature = () => {
     </div>
 
     <div class="scrollable-content">
-        <div class="medals-section">
+        <div class="achivements-section">
           <h3>成就</h3>
-          <div class="medals-grid">
-            <div v-for="medal in player.medals" :key="medal.id" class="medal-item">
+          <div class="achivements-grid">
+            <div v-for="medal in player.achivements" :key="medal.id" class="medal-item">
               <Icon :icon="medal.icon" class="medal-icon" />
               <span class="medal-label">{{ medal.label }}</span>
             </div>
@@ -158,7 +147,7 @@ const editSignature = () => {
   box-sizing: border-box;
 }
 
-.medals-section {
+.achivements-section {
   padding: 0;
   box-sizing: border-box;
   text-align: center;
@@ -167,14 +156,14 @@ const editSignature = () => {
   box-shadow: none;
 }
 
-.medals-section h3 {
+.achivements-section h3 {
   font-size: 18px;
   color: #333;
   margin-top: 0;
   margin-bottom: 15px;
 }
 
-.medals-grid {
+.achivements-grid {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
   gap: 15px;
