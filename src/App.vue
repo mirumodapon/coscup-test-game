@@ -28,8 +28,8 @@ const goToGameScene = () => {
 
   <div class="bottom-bar">
     <button class="button button-sponsor" @click="goToSponsorList">
-       <Icon icon="mdi:hand-heart-outline" class="icon" />
-      <span>贊助商列表</span>
+       <Icon icon="tabler:building-store" class="icon" />
+      <span>攤位列表</span>
     </button>
 
     <button class="button button-game" v-if="route.name !== 'game'" @click="goToGameScene">
