@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import type Phaser from 'phaser'
 import { onMounted, onUnmounted, ref, watch, computed } from 'vue'
+import { marked } from 'marked'
 import { EventBus } from '../game/EventBus'
 import { GameData } from '../game/GameData'
 import StartGame from '../game/main'
@@ -14,6 +15,11 @@ const popupData = ref<{ type: string, ID: string } | null>(null)
 const sponsorData = ref()
 const comments = ref()
 const newMessage = ref('')
+const renderer = new marked.Renderer()
+renderer.link = function ({href, title, text}) {
+  return `<a href="${href}" target="_blank">${text}</a>`
+}
+marked.setOptions({ renderer })
 
 onMounted(() => {
   game.value = StartGame('game-container')
@@ -71,6 +77,11 @@ function addComment() {
     timestamp: new Date().toISOString()
   })
   newMessage.value = ''
+}
+
+function markedIntro(intro: string) {
+  const res = computed(() => marked(intro))
+  return res.value
 }
 
 const isButtonDisabled = computed(() => {
@@ -192,7 +203,7 @@ watch([showPopup, popupData], async ([isOpen, data]) => {
           :alt="sponsorData[popupData?.ID].name['zh-TW']"
           :src="'https://coscup.org/' + sponsorData[popupData?.ID].image"
         >
-        <p>{{ sponsorData[popupData?.ID].intro['zh-TW'] }}</p>
+        <div v-html="markedIntro(sponsorData[popupData?.ID].intro['zh-TW'] )"></div>
       </div>
       <div v-else-if="popupData?.type === 'Venue'" class="Venue">
         <h2>{{ popupData?.ID }}</h2>

@@ -1,9 +1,15 @@
 <script setup lang="ts">
-import { onMounted, ref } from 'vue'
+import { onMounted, ref, computed } from 'vue'
+import { marked } from 'marked'
 import { GameData } from '../game/GameData'
 
 const sponsorData = ref()
 const activeID = ref<number | null>(null)
+const renderer = new marked.Renderer()
+renderer.link = function ({href, title, text}) {
+  return `<a href="${href}" target="_blank">${text}</a>`
+}
+marked.setOptions({ renderer })
 
 onMounted(() => {
   const sponsorDataUrl = 'https://coscup.org/2024/json/sponsor.json'
@@ -25,6 +31,11 @@ onMounted(() => {
 function toggleSponsor(id: number) {
   activeID.value = activeID.value === id ? null : id
 }
+
+function markedIntro(intro: string) {
+  const res = computed(() => marked(intro))
+  return res.value
+}
 </script>
 
 <template>
@@ -45,8 +56,8 @@ function toggleSponsor(id: number) {
         <div
           v-if="activeID === id"
           class="sponsor-detail"
+          v-html="markedIntro(sponsor.intro['zh-TW'])"
         >
-          {{ sponsor.intro['zh-TW'] }}
         </div>
       </transition>
     </div>
