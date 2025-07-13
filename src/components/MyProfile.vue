@@ -1,13 +1,13 @@
 <script setup lang="ts">
 import { ref } from 'vue'
 import { Icon } from '@iconify/vue'
-import { achivements } from '../data/AchivementsData';
+import { achievements } from '../data/AchievementsData';
 
 const player = ref({
-  avatar: '/assets/小啄_01.png',
+  avatar: '/assets/小啄_02.png',
   nickname: '鱈魚',
   signature: '嗨你好',
-  achivements,
+  achievements,
 });
 
 const editSignature = () => {
@@ -36,10 +36,10 @@ const editSignature = () => {
     </div>
 
     <div class="scrollable-content">
-        <div class="achivements-section">
+        <div class="achievements-section">
           <h3>成就</h3>
-          <div class="achivements-grid">
-            <div v-for="medal in player.achivements" :key="medal.id" class="medal-item">
+          <div class="achievements-grid">
+            <div v-for="medal in player.achievements" :key="medal.id" class="medal-item">
               <Icon :icon="medal.icon" class="medal-icon" />
               <span class="medal-label">{{ medal.label }}</span>
             </div>
@@ -57,7 +57,7 @@ const editSignature = () => {
   display: flex;
   flex-direction: column;
   align-items: center;
-  padding: 20px;
+  padding: 35px 20px 20px 20px;
   box-sizing: border-box;
 }
 
@@ -85,9 +85,10 @@ const editSignature = () => {
 
 .avatar-image {
   width: 100%;
-  height: 100%;
+  height: 90%;
   object-fit: cover;
   border-radius: 50%;
+  transform: translateY(5px) translateX(3px);
 }
 
 .info-section {
@@ -108,10 +109,10 @@ const editSignature = () => {
 
 .display-nickname {
   font-size: 20px;
-  /* font-weight: bold; */
+  font-family: 'Zen Maru Gothic', sans-serif;
+  font-weight: bold;
   color: #333;
 }
-
 
 .signature-container {
   background-color: #e6eef4;
@@ -131,7 +132,6 @@ const editSignature = () => {
   flex-grow: 1;
 }
 
-
 .edit-icon {
   color: #888;
   font-size: 16px;
@@ -147,7 +147,7 @@ const editSignature = () => {
   box-sizing: border-box;
 }
 
-.achivements-section {
+.achievements-section {
   padding: 0;
   box-sizing: border-box;
   text-align: center;
@@ -156,19 +156,22 @@ const editSignature = () => {
   box-shadow: none;
 }
 
-.achivements-section h3 {
-  font-size: 18px;
-  color: #333;
+.achievements-section h3 {
+  font-size: 20px;
+  font-family: 'Zen Maru Gothic', sans-serif;
+  font-weight: bold;
+  color: #4A4A4A;
   margin-top: 0;
   margin-bottom: 15px;
+  letter-spacing: 2px;
 }
 
-.achivements-grid {
+.achievements-grid {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
   gap: 15px;
   justify-items: center;
-  padding-bottom: 20px;
+  margin-bottom: 70px;
 }
 
 .medal-item {
@@ -183,11 +186,12 @@ const editSignature = () => {
 
 .medal-icon {
   font-size: 48px;
-  color: #41d1ff;
+  color: #F8C0C8;
 }
 
 .medal-label {
   font-size: 12px;
+  font-family: 'Zen Maru Gothic', sans-serif;
   color: #555;
   text-align: center;
   white-space: nowrap;
