@@ -1,18 +1,37 @@
 <script setup lang="ts">
-import { ref } from 'vue'
+import { ref, onMounted, onUnmounted } from 'vue'
 import { Icon } from '@iconify/vue'
 import { achievements } from '../data/AchievementsData';
 
 const player = ref({
   avatar: '/assets/小啄_02.png',
   nickname: '鱈魚',
-  signature: '嗨你好',
+  signature: '個性簽名',
   achievements,
 });
 
 const editSignature = () => {
   alert('編輯簽名待開發');
 };
+
+// This is for test
+const handleKeydown = (event: KeyboardEvent) => {
+  const key = parseInt(event.key);
+  if (key >= 1 && key <= player.value.achievements.length) {
+    const medalToUnlock = player.value.achievements.find(m => m.id === key);
+    if (medalToUnlock) {
+      medalToUnlock.unlocked = true;
+    }
+  }
+};
+
+onMounted(() => {
+  window.addEventListener('keydown', handleKeydown);
+});
+
+onUnmounted(() => {
+  window.removeEventListener('keydown', handleKeydown);
+});
 
 </script>
 
@@ -40,8 +59,8 @@ const editSignature = () => {
           <h3>成就</h3>
           <div class="achievements-grid">
             <div v-for="medal in player.achievements" :key="medal.id" class="medal-item">
-              <Icon :icon="medal.icon" class="medal-icon" />
-              <span class="medal-label">{{ medal.label }}</span>
+              <Icon :icon="medal.icon" class="medal-icon" :style="{ color: medal.unlocked ? '#F8C0C8' : '#888' }" />
+              <span class="medal-label">{{ medal.unlocked ? medal.label : '？？？' }}</span>
             </div>
           </div>
         </div>
@@ -186,7 +205,7 @@ const editSignature = () => {
 
 .medal-icon {
   font-size: 48px;
-  color: #F8C0C8;
+  /* color: #F8C0C8; */
 }
 
 .medal-label {

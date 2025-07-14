@@ -6,15 +6,15 @@ export interface Medal {
 }
 
 export const achievements: Medal[] = [
-  { id: 1, icon: 'mdi:medal', label: '只是路過', unlocked: true }, // 聊天室發 1 則留言
-  { id: 2, icon: 'ph:chat-centered-text', label: '開始融入', unlocked: true }, // 聊天室發 10 則留言
+  { id: 1, icon: 'mdi:medal', label: '只是路過', unlocked: false }, // 聊天室發 1 則留言
+  { id: 2, icon: 'ph:chat-centered-text', label: '開始融入', unlocked: false }, // 聊天室發 10 則留言
   { id: 3, icon: 'mdi:trophy-award', label: '意見領袖', unlocked: false }, // 聊天室發 30 則留言
 
-  { id: 4, icon: 'mdi:heart-outline', label: '有人理我', unlocked: true }, // 聊天室留言獲得 1 個愛心
+  { id: 4, icon: 'mdi:heart-outline', label: '有人理我', unlocked: false }, // 聊天室留言獲得 1 個愛心
   { id: 5, icon: 'mdi:heart-multiple-outline', label: '人氣新星', unlocked: false }, // 聊天室留言獲得 30 個愛心
   { id: 6, icon: 'mdi:heart-circle', label: '魅力無法擋', unlocked: false }, // 聊天室留言獲得 100 個愛心
 
-  { id: 7, icon: 'mdi:hand-heart-outline', label: '給你一顆愛心', unlocked: true }, // 按別人留言愛心 1 次
+  { id: 7, icon: 'mdi:hand-heart-outline', label: '給你一顆愛心', unlocked: false }, // 按別人留言愛心 1 次
   { id: 8, icon: 'mdi:hand-coin-outline', label: '暖心使者', unlocked: false }, // 按別人留言愛心 10 次
   { id: 9, icon: 'mdi:cards-heart', label: '真心不騙', unlocked: false }, // 按別人留言愛心 30 次
 
