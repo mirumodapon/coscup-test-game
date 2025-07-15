@@ -39,33 +39,45 @@ function markedIntro(intro: string) {
 </script>
 
 <template>
-  <div class="sponsor-list" :style="{ 'margin-bottom': `${GameData.bottomBarHeight}px` }">
-    <div
-      v-for="(sponsor, id) in sponsorData"
-      :key="id"
-      class="sponsor-item"
-      @click="toggleSponsor(id)"
-    >
-      <div class="sponsor-header">
-        <img 
-          :src="'https://coscup.org/' + sponsorData[id].image" 
-          :alt="sponsorData[id].name['zh-TW']" class="sponsor-logo" />
-        <span class="sponsor-name">{{ sponsorData[id].name['zh-TW'] }}</span>
-      </div>
-      <transition name="fade-slide">
-        <div
-          v-if="activeID === id"
-          class="sponsor-detail"
-          v-html="markedIntro(sponsor.intro['zh-TW'])"
-        >
+  <div class="sponsor-wrapper">
+    <div class="sponsor-list" :style="{ 'margin-bottom': `${GameData.bottomBarHeight}px` }">
+      <div
+        v-for="(sponsor, id) in sponsorData"
+        :key="id"
+        class="sponsor-item"
+        @click="toggleSponsor(id)"
+      >
+        <div class="sponsor-header">
+          <img 
+            :src="'https://coscup.org/' + sponsorData[id].image" 
+            :alt="sponsorData[id].name['zh-TW']" class="sponsor-logo" />
+          <span class="sponsor-name">{{ sponsorData[id].name['zh-TW'] }}</span>
         </div>
-      </transition>
+        <transition name="fade-slide">
+          <div
+            v-if="activeID === id"
+            class="sponsor-detail"
+            v-html="markedIntro(sponsor.intro['zh-TW'])"
+          >
+          </div>
+        </transition>
+      </div>
     </div>
   </div>
 </template>
 
 
 <style scoped>
+.sponsor-wrapper {
+  height: 100%;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  overflow: hidden;
+  background-color: #FBFAF2;
+}
+
 .sponsor-list {
   display: flex;
   flex-direction: column;
@@ -94,7 +106,7 @@ function markedIntro(intro: string) {
 .sponsor-name {
   font-weight: bold;
   font-size: 18px;
-  color: black;
+  color: #444;
 }
 
 .sponsor-detail {
