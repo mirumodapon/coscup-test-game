@@ -6,6 +6,7 @@ import { EventBus } from '../game/EventBus'
 import { GameData } from '../game/GameData'
 import StartGame from '../game/main'
 import { Icon } from '@iconify/vue'
+import Danmaku from './Danmaku.vue'
 
 const emit = defineEmits(['current-active-scene'])
 // Save the current scene instance
@@ -64,6 +65,7 @@ defineExpose({ scene, game })
 function closePopup() {
   showPopup.value = false
   GameData.popupOpen = false
+  comments.value = []
 }
 
 function formatTime(iso: string) {
@@ -87,6 +89,13 @@ function markedIntro(intro: string) {
   const res = computed(() => marked(intro))
   return res.value
 }
+
+const topComments = computed(() =>
+  comments.value
+    .slice()
+    .sort((a: any, b: any) => b.likes - a.likes)
+    .slice(0, 3)
+)
 
 const isButtonDisabled = computed(() => {
   return newMessage.value.trim() === ''
@@ -295,6 +304,7 @@ watch([showPopup, popupData], async ([isOpen, data]) => {
       </div>
     </div>
   </div>
+  <Danmaku :comments="topComments" v-if="popupData?.type === 'Venue'"/>
 </template>
 
 <style scoped>
