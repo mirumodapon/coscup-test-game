@@ -1,7 +1,7 @@
 import { Scene } from 'phaser'
-import { HexTile } from '../TileData'
+import { HexTile } from '../../data/TileData'
 import { EventBus } from '../EventBus'
-import { GameData } from '../GameData'
+import { GameData } from '../../data/GameData.ts'
 
 function randomData(scene: Phaser.Scene, x: number, y: number) {
   const ret = {

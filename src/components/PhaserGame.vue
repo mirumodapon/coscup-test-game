@@ -3,7 +3,7 @@ import type Phaser from 'phaser'
 import { onMounted, onUnmounted, ref, watch, computed } from 'vue'
 import { marked } from 'marked'
 import { EventBus } from '../game/EventBus'
-import { GameData } from '../game/GameData'
+import { GameData } from '../data/GameData.ts'
 import StartGame from '../game/main'
 import { Icon } from '@iconify/vue'
 import Danmaku from './Danmaku.vue'
@@ -268,7 +268,7 @@ watch([showPopup, popupData], async ([isOpen, data]) => {
       <div v-if="popupData?.type === 'Base'">
         <img
           alt="COSCUP x RubyConf Taiwan 2025 banner"
-          src="../../public/assets/banner-mobile.png"
+          src="/assets/banner-mobile.png"
         >
       </div>
       <div v-else-if="popupData?.type === 'Sponsor'" class="Sponsor">

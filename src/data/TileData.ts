@@ -1,5 +1,5 @@
 import Phaser from 'phaser'
-import { EventBus } from './EventBus'
+import { EventBus } from '../game/EventBus'
 import { GameData } from './GameData'
 
 function hexToHSL(hex: number): { h: number; s: number; l: number } {

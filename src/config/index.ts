@@ -4,6 +4,15 @@ import SponsorList from '../components/SponsorList.vue'
 import QRCodeScanner from '../components/QRCodeScanner.vue'
 import MyProfile from '../components/MyProfile.vue'
 
+const handleQrCodeScanned = (decodedText: string) => {
+  console.log('QR Code 掃描成功:', decodedText)
+  router.push({ path: '/', query: { scannedData: decodedText } });
+  // 將結果存入 Pinia/Vuex store，供其他元件使用：
+  //    someStore.setScannedData(decodedText);
+  alert(`掃描到的資料是：${decodedText}`);
+
+}
+
 const routes: Array<RouteRecordRaw> = [
   {
     path: '/',
@@ -18,7 +27,10 @@ const routes: Array<RouteRecordRaw> = [
   {
     path: '/qrcode-scanner',
     name: 'qrcode-scanner',
-    component: QRCodeScanner
+    component: QRCodeScanner,
+    props: (route) => ({
+      qrCodeSuccessCallback: handleQrCodeScanned,
+    }),
   },
   {
     path: '/profile',
