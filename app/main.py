@@ -48,7 +48,8 @@ def get_hextile():
                 "title": "TC的簽名",
                 "timestamp": 160000000,
                 "msg": "hello world",
-                "like": 4
+                "likes": 4,
+                "is_like": True
             }
         ]
     }
