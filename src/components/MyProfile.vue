@@ -1,25 +1,36 @@
 <script setup lang="ts">
-import { ref, onMounted, onUnmounted } from 'vue'
+import { ref, onMounted, onUnmounted, computed } from 'vue'
 import { Icon } from '@iconify/vue'
 import { achievements } from '../data/AchievementsData';
 
 const player = ref({
   avatar: '/assets/小啄_02.png',
   nickname: '鱈魚',
-  signature: '個性簽名',
-  achievements,
+  title: '新手小啄',
+  points: 0,
+  achievements: achievements,
 });
 
-const editSignature = () => {
-  alert('編輯簽名待開發');
-};
+const availableTitles = computed(() => {
+  const titles = [{ id: 0, label: '新手小啄', icon: '' }];
+  player.value.achievements.forEach(achievement => {
+    if (achievement.unlocked) {
+      titles.push({
+        id: achievement.id,
+        label: achievement.label,
+        icon: achievement.icon
+      });
+    }
+  });
+  return titles;
+});
 
 // This is for test
 const handleKeydown = (event: KeyboardEvent) => {
   const key = parseInt(event.key);
   if (key >= 1 && key <= player.value.achievements.length) {
     const medalToUnlock = player.value.achievements.find(m => m.id === key);
-    if (medalToUnlock) {
+    if (medalToUnlock && !medalToUnlock.unlocked) {
       medalToUnlock.unlocked = true;
     }
   }
@@ -32,7 +43,6 @@ onMounted(() => {
 onUnmounted(() => {
   window.removeEventListener('keydown', handleKeydown);
 });
-
 </script>
 
 <template>
@@ -44,14 +54,18 @@ onUnmounted(() => {
     </div>
 
     <div class="info-section">
+       <div class="display-score">{{ player.points }} 分</div>
       <div class="nickname-container">
         <span class="display-nickname">{{ player.nickname }}</span>
       </div>
 
-      <div class="signature-container">
-        <input type="text" v-model="player.signature" class="signature-input" readonly>
-        <span class="edit-icon" @click="editSignature">✏️</span>
-      </div>
+      <div class="title-container">
+        <select v-model="player.title" class="title-select">
+          <option v-for="title in availableTitles" :key="title.id" :value="title.label">
+            {{ title.label }}
+          </option>
+        </select>
+        </div>
     </div>
 
     <div class="scrollable-content">
@@ -72,7 +86,7 @@ onUnmounted(() => {
 #myProfile {
   width: 100%;
   height: 100%;
-  background-color: #fff;
+  background-color: #fbfaf2;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -84,7 +98,7 @@ onUnmounted(() => {
   display: flex;
   flex-direction: column;
   align-items: center;
-  margin-bottom: 10px;
+  margin-bottom: 5px;
   flex-shrink: 0;
 }
 
@@ -114,9 +128,18 @@ onUnmounted(() => {
   width: 100%;
   display: flex;
   flex-direction: column;
-  gap: 15px;
+  gap: 10px;
   margin-bottom: 20px;
   flex-shrink: 0;
+}
+
+.display-score {
+  font-size: 15px;
+  font-family: 'Zen Maru Gothic', sans-serif;
+  font-weight: bold;
+  color: #4a4a4a;
+  text-align: center;
+  width: 100%;
 }
 
 .nickname-container {
@@ -133,29 +156,41 @@ onUnmounted(() => {
   color: #333;
 }
 
-.signature-container {
+.title-container {
   background-color: #e6eef4;
   border-radius: 25px;
   padding: 10px 15px;
   display: flex;
   align-items: center;
-  justify-content: space-between;
+  justify-content: center;
 }
 
-.signature-input {
+.title-select {
+  flex-grow: 1;
   border: none;
   background: transparent;
   outline: none;
   font-size: 16px;
+  font-family: 'Zen Maru Gothic', sans-serif;
   color: #333;
-  flex-grow: 1;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
+  cursor: pointer;
+  text-align: center;
 }
 
-.edit-icon {
+.title-container::after {
+  content: '▼';
+  position: absolute;
+  right: 15px;
   color: #888;
-  font-size: 16px;
-  cursor: pointer;
-  margin-left: 10px;
+  font-size: 12px;
+  pointer-events: none;
+}
+
+.title-container {
+  position: relative;
 }
 
 .scrollable-content {

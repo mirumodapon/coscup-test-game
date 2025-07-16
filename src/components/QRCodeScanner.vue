@@ -49,12 +49,12 @@ watch(cameraId, async (newCameraId) => {
 <template>
   <div>
     <div
-      v-if="cameraId"
       :id="qrcodeRegionId"
       style="width: 300px; height: 300px;"
-    ></div>
-    <div v-else>
-      相機初始化中或權限未開啟...
+    >
+      <div v-if="!cameraId" style="text-align: center; padding-top: 50px;">
+        相機初始化中或權限未開啟...
+      </div>
     </div>
   </div>
 </template>

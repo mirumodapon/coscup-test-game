@@ -18,11 +18,16 @@ export const achievements: Medal[] = [
   { id: 8, icon: 'mdi:hand-coin-outline', label: '暖心使者', unlocked: false }, // 按別人留言愛心 10 次
   { id: 9, icon: 'mdi:cards-heart', label: '真心不騙', unlocked: false }, // 按別人留言愛心 30 次
 
-  { id: 10, icon: 'fluent:trophy-16-filled', label: '早起的鳥兒有蟲吃', unlocked: true }, // 參與開幕
-  { id: 11, icon: 'mdi:flag-checkered', label: '最後一哩路', unlocked: false }, // 參與閉幕
+  { id: 10, icon: 'fluent:trophy-16-filled', label: '早起的鳥兒有蟲吃', unlocked: true }, // 參與第一天或第二天的開幕
+  { id: 11, icon: 'mdi:flag-checkered', label: '最後一哩路', unlocked: false }, // 參與第一天的閉幕
   { id: 12, icon: 'material-symbols:star', label: '有始有終', unlocked: false }, // 參與開幕與閉幕
+  // 攤位數量需要確認下
+  { id: 13, icon: 'mdi:crown', label: '第一哩路', unlocked: true }, // 獲得攤位 1 個板塊
+  { id: 14, icon: 'mdi:map-marker-radius-outline', label: '開疆闢土', unlocked: false }, // 獲得攤位 5 個板塊
+  { id: 15, icon: 'mdi:earth-box', label: '吾土吾疆', unlocked: false }, // 獲得攤位 30 個板塊
 
-  { id: 13, icon: 'mdi:crown', label: '第一哩路', unlocked: true }, // 獲得 1 個板塊
-  { id: 14, icon: 'mdi:map-marker-radius-outline', label: '開疆闢土', unlocked: false }, // 獲得 5 個板塊
-  { id: 15, icon: 'mdi:earth-box', label: '吾土吾疆', unlocked: false }, // 獲得 30 個板塊
+  // 有去 TR
+  // 有去 RB
+  // 有去 AU
+
 ]
