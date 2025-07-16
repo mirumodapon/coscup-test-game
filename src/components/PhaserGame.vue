@@ -14,7 +14,7 @@ const scene = ref()
 const game = ref()
 const showPopup = ref(false)
 const popupData = ref<{ type: string, ID: string } | null>(null)
-const sponsorData = ref()
+const boothsData = ref()
 const comments = ref()
 const newMessage = ref('')
 const renderer = new marked.Renderer()
@@ -26,11 +26,11 @@ marked.setOptions({ renderer })
 onMounted(() => {
   game.value = StartGame('game-container')
 
-  const sponsorDataUrl = 'https://coscup.org/2024/json/sponsor.json'
-  fetch(sponsorDataUrl)
+  const boothsDataUrl = 'https://coscup.org/2024/json/sponsor.json'
+  fetch(boothsDataUrl)
     .then(res => res.json())
     .then(json => {
-      sponsorData.value = json.reduce(
+      boothsData.value = json.reduce(
         (acc: any, item: any) => {
           acc[item.id] = item
           return acc
@@ -271,13 +271,13 @@ watch([showPopup, popupData], async ([isOpen, data]) => {
           src="/assets/banner-mobile.png"
         >
       </div>
-      <div v-else-if="popupData?.type === 'Sponsor'" class="Sponsor">
-        <h2>{{ sponsorData[popupData?.ID].name['zh-TW'] }}</h2>
+      <div v-else-if="popupData?.type === 'Booths'" class="Booths">
+        <h2>{{ boothsData[popupData?.ID].name['zh-TW'] }}</h2>
         <img
-          :alt="sponsorData[popupData?.ID].name['zh-TW']"
-          :src="'https://coscup.org/' + sponsorData[popupData?.ID].image"
+          :alt="boothsData[popupData?.ID].name['zh-TW']"
+          :src="'https://coscup.org/' + boothsData[popupData?.ID].image"
         >
-        <div v-html="markedIntro(sponsorData[popupData?.ID].intro['zh-TW'] )"></div>
+        <div class="booths-content" v-html="markedIntro(boothsData[popupData?.ID].intro['zh-TW'] )"></div>
       </div>
       <div v-else-if="popupData?.type === 'Venue'" class="Venue">
         <h2>{{ popupData?.ID }}</h2>
@@ -356,8 +356,27 @@ img {
   width: 100%;
 }
 
-.Sponsor h2,
-.Sponsor p,
+.Booths {
+  text-align: left;
+}
+
+.booths-content {
+  max-height: 40vh;
+  overflow-y: auto;
+  padding-right: 4px;
+}
+
+.booths-content p {
+  line-height: 1.6;
+  margin-bottom: 12px;
+}
+
+.booths-content a {
+  color: #007bff;
+  text-decoration: underline;
+  word-break: break-word;
+}
+
 .Venue h2 {
   text-align: left;
   max-height: 50vh;

@@ -1,6 +1,6 @@
 import { createRouter, createWebHistory, RouteRecordRaw } from 'vue-router'
 import PhaserGame from '../components/PhaserGame.vue'
-import SponsorList from '../components/SponsorList.vue'
+import BoothsList from '../components/BoothsList.vue'
 import QRCodeScanner from '../components/QRCodeScanner.vue'
 import MyProfile from '../components/MyProfile.vue'
 
@@ -20,9 +20,9 @@ const routes: Array<RouteRecordRaw> = [
     component: PhaserGame
   },
   {
-    path: '/sponsor',
-    name: 'sponsor',
-    component: SponsorList
+    path: '/booths',
+    name: 'booths',
+    component: BoothsList
   },
   {
     path: '/qrcode-scanner',

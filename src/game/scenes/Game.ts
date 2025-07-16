@@ -16,7 +16,7 @@ function randomData(scene: Phaser.Scene, x: number, y: number) {
 
   const r = Math.random()
   if (r < 0.25) {
-    ret.type = 'Sponsor'
+    ret.type = 'Booths'
     ret.ID = 'Andes'
   }
   else {

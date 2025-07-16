@@ -6,8 +6,8 @@ import './style.css'
 const router = useRouter()
 const route = useRoute()
 
-const goToSponsorList = () => {
-  router.push('/sponsor')
+const goToBoothsList = () => {
+  router.push('/booths')
 }
 
 const scanQRCode = () => {
@@ -27,7 +27,7 @@ const goToGameScene = () => {
   <router-view />
 
   <div class="bottom-bar">
-    <button class="button button-sponsor" @click="goToSponsorList">
+    <button class="button button-booths" @click="goToBoothsList">
        <Icon icon="tabler:building-store" class="icon" />
       <span>攤位列表</span>
     </button>
@@ -85,7 +85,7 @@ const goToGameScene = () => {
   transform: translateY(-10px);
 }
 
-.button-sponsor:hover,
+.button-booths:hover,
 .button-profile:hover {
   transform: translateY(-2px);
   color: #007bff;

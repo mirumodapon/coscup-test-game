@@ -80,7 +80,7 @@ export class HexTile extends Phaser.GameObjects.Container {
     if (this.type === "Base") {
       this.color = 0xD3BBDD
     }
-    else if (this.type === "Sponsor") {
+    else if (this.type === "Booths") {
       this.color = 0xF8C0C8
     }
     else if (this.type === "Venue") {
