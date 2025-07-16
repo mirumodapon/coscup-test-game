@@ -23,8 +23,8 @@ renderer.link = function ({href, title, text}) {
 }
 marked.setOptions({ renderer })
 
-onMounted(() => {
-  game.value = StartGame('game-container')
+onMounted(async () => {
+  game.value = await StartGame('game-container')
 
   const boothsDataUrl = 'https://coscup.org/2024/json/sponsor.json'
   fetch(boothsDataUrl)

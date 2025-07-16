@@ -17,7 +17,8 @@ function randomData(scene: Phaser.Scene, x: number, y: number) {
   const r = Math.random()
   if (r < 0.25) {
     ret.type = 'Booths'
-    ret.ID = 'Andes'
+    const index = Math.min(Math.floor(Math.random() * GameData.boothIDs.length), GameData.boothIDs.length - 1)
+    ret.ID = GameData.boothIDs[index]
   }
   else {
     ret.type = 'Venue'
@@ -30,13 +31,19 @@ export class Game extends Scene {
   private contentContainer!: Phaser.GameObjects.Container
   private dragStartY = 0
   private containerStartY = 0
+  private boothIDs: string[]
 
-  constructor() {
-    super('Game')
+  constructor(boothIDs: string[]) {
+    super('MainGame')
+    this.boothIDs = boothIDs
   }
 
   preload() {
-    this.load.setPath('assets')
+    this.boothIDs.forEach((key) => {
+      const url = `https://coscup.org/2024/images/sponsor/${key}.png`
+      this.load.image(key, url)
+    })
+    GameData.boothIDs = this.boothIDs
   }
 
   create() {

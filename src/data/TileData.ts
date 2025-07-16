@@ -69,29 +69,40 @@ export class HexTile extends Phaser.GameObjects.Container {
   private skew: number
   private hexGraphics: Phaser.GameObjects.Graphics
   private ID: string
+  type: string
   centerX: number
   centerY: number
 
-  constructor({ scene, x, y, size, type, ID = "", skew = 0.6 }: HexTileOptions) {
+  constructor({ scene, x, y, size, type, ID = "", skew = 0.6}: HexTileOptions) {
     super(scene, x, y-100)
     this.size = size
     this.ID = ID
     this.type = type
+    this.skew = skew
     if (this.type === "Base") {
       this.color = 0xD3BBDD
     }
     else if (this.type === "Booths") {
-      this.color = 0xF8C0C8
+      this.color = 0xFFFFFF
     }
     else if (this.type === "Venue") {
       this.color = 0xECE3F0
     }
-    this.skew = skew
     this.centerX = x
     this.centerY = y
 
     this.hexGraphics = this.createHex()
     this.add(this.hexGraphics)
+    if (this.type === "Booths") {
+      const boothLogo = this.scene.add.image(0, 0, ID)
+      const maxW = this.size * 1.5
+      const maxH = this.size * this.skew * 1.5
+      const scaleX = maxW / boothLogo.width
+      const scaleY = maxH / boothLogo.height
+      const scale = Math.min(scaleX, scaleY)
+      boothLogo.setScale(scale)
+      this.add(boothLogo)
+    }
     this.setSize(size * 2, Math.sqrt(3) * size * skew)
     this.setDepth(this.y)
 

@@ -42,7 +42,7 @@ defineProps<{
   color: #fff;
   font-size: 20px;
   visibility: hidden;
-  animation: danmaku-move 6s linear infinite;
+  animation: danmaku-move 6s linear;
   animation-fill-mode: forwards;
   text-shadow:
     -1px -1px 0 #333, /* 左上 */

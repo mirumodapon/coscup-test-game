@@ -8,6 +8,7 @@ export const GameData = {
   hexSize: 0,
   bottomBarHeight: 70,
   popupOpen: false,
+  boothIDs: [] as string[],
   get hexWidth() {
     return this.hexSize * 2
   },

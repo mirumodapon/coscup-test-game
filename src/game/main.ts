@@ -13,12 +13,21 @@ const config: Types.Core.GameConfig = {
     autoCenter: Phaser.Scale.CENTER_BOTH,
   },
   parent: "game-container",
-  backgroundColor: "#EFE7D3",
-  scene: [MainGame],
+  backgroundColor: "#EFE7D3"
 }
 
-function StartGame(parent: string) {
-  return new Game({ ...config, parent })
+export async function StartGame(parent: string): Promise<Phaser.Game> {
+  const res = await fetch('https://coscup.org/2024/json/sponsor.json')
+  const json = await res.json()
+  const boothIDs: string[] = json.map((s: any) => (s.id))
+
+  const scene = new MainGame(boothIDs)
+
+  return new Game({
+    ...config,
+    parent,
+    scene: [scene],
+  })
 }
 
 export default StartGame
