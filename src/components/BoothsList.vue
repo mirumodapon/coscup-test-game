@@ -1,9 +1,9 @@
 <script setup lang="ts">
 import { onMounted, ref, computed } from 'vue'
 import { marked } from 'marked'
-import { GameData } from '../game/GameData'
+import { GameData } from '../data/GameData'
 
-const sponsorData = ref()
+const boothsData = ref()
 const activeID = ref<number | null>(null)
 const renderer = new marked.Renderer()
 renderer.link = function ({href, title, text}) {
@@ -12,11 +12,11 @@ renderer.link = function ({href, title, text}) {
 marked.setOptions({ renderer })
 
 onMounted(() => {
-  const sponsorDataUrl = 'https://coscup.org/2024/json/sponsor.json'
-  fetch(sponsorDataUrl)
+  const boothsDataUrl = 'https://coscup.org/2024/json/sponsor.json'
+  fetch(boothsDataUrl)
     .then(res => res.json())
     .then(json => {
-      sponsorData.value = json.reduce(
+      boothsData.value = json.reduce(
         (acc: any, item: any) => {
           acc[item.id] = item
           return acc
@@ -28,7 +28,7 @@ onMounted(() => {
     })
 })
 
-function toggleSponsor(id: number) {
+function toggleBooths(id: number) {
   activeID.value = activeID.value === id ? null : id
 }
 
@@ -39,25 +39,25 @@ function markedIntro(intro: string) {
 </script>
 
 <template>
-  <div class="sponsor-wrapper">
-    <div class="sponsor-list" :style="{ 'margin-bottom': `${GameData.bottomBarHeight}px` }">
+  <div class="booths-wrapper">
+    <div class="booths-list" :style="{ 'margin-bottom': `${GameData.bottomBarHeight}px` }">
       <div
-        v-for="(sponsor, id) in sponsorData"
+        v-for="(booths, id) in boothsData"
         :key="id"
-        class="sponsor-item"
-        @click="toggleSponsor(id)"
+        class="booths-item"
+        @click="toggleBooths(id)"
       >
-        <div class="sponsor-header">
+        <div class="booths-header">
           <img 
-            :src="'https://coscup.org/' + sponsorData[id].image" 
-            :alt="sponsorData[id].name['zh-TW']" class="sponsor-logo" />
-          <span class="sponsor-name">{{ sponsorData[id].name['zh-TW'] }}</span>
+            :src="'https://coscup.org/' + boothsData[id].image" 
+            :alt="boothsData[id].name['zh-TW']" class="booths-logo" />
+          <span class="booths-name">{{ boothsData[id].name['zh-TW'] }}</span>
         </div>
         <transition name="fade-slide">
           <div
             v-if="activeID === id"
-            class="sponsor-detail"
-            v-html="markedIntro(sponsor.intro['zh-TW'])"
+            class="booths-detail"
+            v-html="markedIntro(booths.intro['zh-TW'])"
           >
           </div>
         </transition>
@@ -68,7 +68,7 @@ function markedIntro(intro: string) {
 
 
 <style scoped>
-.sponsor-wrapper {
+.booths-wrapper {
   height: 100%;
   width: 100%;
   display: flex;
@@ -78,7 +78,7 @@ function markedIntro(intro: string) {
   background-color: #FBFAF2;
 }
 
-.sponsor-list {
+.booths-list {
   display: flex;
   flex-direction: column;
   gap: 12px;
@@ -87,29 +87,29 @@ function markedIntro(intro: string) {
   overflow-y: auto;
 }
 
-.sponsor-item {
+.booths-item {
   border-radius: 12px;
   padding: 12px;
   background-color: white;
 }
 
-.sponsor-header {
+.booths-header {
   display: flex;
   align-items: center;
   gap: 12px;
 }
 
-.sponsor-logo {
+.booths-logo {
   width: 100px;
 }
 
-.sponsor-name {
+.booths-name {
   font-weight: bold;
   font-size: 18px;
   color: #444;
 }
 
-.sponsor-detail {
+.booths-detail {
   font-size: 14px;
   color: #555;
   transform-origin: top;
