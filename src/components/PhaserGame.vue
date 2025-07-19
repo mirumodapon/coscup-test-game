@@ -261,7 +261,7 @@ watch([showPopup, popupData], async ([isOpen, data]) => {
 </script>
 
 <template>
-  <div id="game-container" />
+  <div id="game-container" :style="{ bottom: `${GameData.bottomBarHeight}px` }" />
   <div class="popup-overlay" id="popup" v-if="showPopup">
     <div class="popup-content">
       <button class="popup-close" id="popupClose" @click="closePopup()">x</button>
@@ -309,8 +309,11 @@ watch([showPopup, popupData], async ([isOpen, data]) => {
 
 <style scoped>
 #game-container {
-  width: 100%;
-  height: 100%;
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 0;
 }
 
 .popup-overlay {

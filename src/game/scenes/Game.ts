@@ -59,7 +59,7 @@ export class Game extends Scene {
     const startY = GameData.screenHeight - spacingY * (rows + 1)
     const startX = 0
 
-    this.contentContainer = this.add.container(0, -GameData.bottomBarHeight)
+    this.contentContainer = this.add.container(0, 0)
 
     for (let row = 0; row < rows; row++) {
       for (let col = 0; col < cols; col++) {
@@ -95,7 +95,7 @@ export class Game extends Scene {
         const maxY =  GameData.screenHeight * 0.5 - lastTile.centerY
         this.contentContainer.y = this.containerStartY + deltaY
 
-        this.contentContainer.y = Phaser.Math.Clamp(this.contentContainer.y, -GameData.bottomBarHeight , maxY)
+        this.contentContainer.y = Phaser.Math.Clamp(this.contentContainer.y, 0, maxY)
       }
     })
 
@@ -139,10 +139,10 @@ export class Game extends Scene {
     const tile = new HexTile(randomData(this, pos.x, pos.y))
     this.contentContainer.addAt(tile, 0)
     GameData.path.push(tile)
-    this.contentContainer.y = Math.max(GameData.screenHeight * 0.5 - lastTile.y, -GameData.bottomBarHeight)
+    this.contentContainer.y = Math.max(GameData.screenHeight * 0.5 - lastTile.y, 0)
     this.tweens.add({
       targets: this.contentContainer,
-      y: Math.max(GameData.screenHeight * 0.5 - pos.y, -GameData.bottomBarHeight),
+      y: Math.max(GameData.screenHeight * 0.5 - pos.y, 0),
       duration: 1000,
       ease: 'Sine.easeInOut',
     })

@@ -51,7 +51,7 @@ const goToGameScene = () => {
 
 <style scoped>
 .bottom-bar {
-  position: absolute;
+  position: fixed;
   display: flex;
   bottom: 0;
   height: 70px;
