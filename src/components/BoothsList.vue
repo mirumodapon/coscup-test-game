@@ -76,6 +76,11 @@ function markedIntro(intro: string) {
   align-items: center;
   overflow: hidden;
   background-color: #FBFAF2;
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 0;
 }
 
 .booths-list {

@@ -92,6 +92,11 @@ onUnmounted(() => {
   align-items: center;
   padding: 35px 20px 20px 20px;
   box-sizing: border-box;
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 0;
 }
 
 .avatar-section {
