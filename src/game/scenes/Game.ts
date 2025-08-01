@@ -17,11 +17,11 @@ function randomData(scene: Phaser.Scene, x: number, y: number) {
 
   const r = Math.random()
   if (r < 0.25) {
-    ret.type = 'booths'
+    ret.type = 'BOOTHS'
     ret.ID = 'mysql'
   }
   else {
-    ret.type = 'venue'
+    ret.type = 'VENUE'
     ret.ID = 'TR212'
   }
   return ret
@@ -39,9 +39,10 @@ export class Game extends Scene {
   }
 
   preload() {
-    this.boothImages.forEach((url) => {
-      this.load.image('mysql', url) // TODO: replase 'mysql' with booth ID
-    })
+    // TODO
+    // this.boothImages.forEach((url) => {
+    //   this.load.image('mysql', url) // TODO: replase 'mysql' with booth ID
+    // })
     this.load.image('eye', '../../../public/assets/eye.png')
     this.load.image('no-eye', '../../../public/assets/no-eye.png')
   }
@@ -72,7 +73,7 @@ export class Game extends Scene {
           x: x,
           y: y,
           size: GameData.hexSize,
-          type: "base",
+          type: "BASE",
           skew: GameData.skew
         })
         this.contentContainer.add(tile)
@@ -97,7 +98,7 @@ export class Game extends Scene {
         size: GameData.hexSize,
         skew: GameData.skew,
         type: path[idx].type,
-        ID: path[idx].booth_id
+        ID: path[idx].name
       })
       this.contentContainer.addAt(tile, 0)
       GameData.path.push(tile)

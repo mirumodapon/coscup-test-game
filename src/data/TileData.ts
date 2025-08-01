@@ -81,13 +81,13 @@ export class HexTile extends Phaser.GameObjects.Container {
     this.ID = ID
     this.type = type
     this.skew = skew
-    if (this.type === "base") {
+    if (this.type === "BASE") {
       this.color = 0xD3BBDD
     }
-    else if (this.type === "booths") {
+    else if (this.type === "BOOTHS") {
       this.color = 0xFDDDE2
     }
-    else if (this.type === "venue") {
+    else if (this.type === "VENUE") {
       this.color = 0xECE3F0
     }
     this.centerX = x
@@ -222,7 +222,7 @@ export class HexTile extends Phaser.GameObjects.Container {
 
   setInfoVisible(show: boolean) {
     if (show) {
-      if (this.type === "booths") {
+      if (this.type === "BOOTHS") {
         if (!this.boothLogo) {
           this.boothLogo = this.scene.add.image(0, 0, 'mysql') // TODO: change mysql to this.ID
           const maxW = this.size * 1.5
@@ -235,12 +235,12 @@ export class HexTile extends Phaser.GameObjects.Container {
         }
         this.boothLogo.setVisible(true)
       }
-      else if (this.type === "base" || this.type === "venue") {
+      else if (this.type === "BASE" || this.type === "VENUE") {
         if (!this.infoText) {
           this.infoText = this.scene.add.text(0, 0, this.ID || 'start', {
-            fontSize: '24px', // 修改字體大小
-            fontFamily: 'Sour Gummy', // 修改字體
-            color: '#000', // 修改字體顏色
+            fontSize: '24px',
+            fontFamily: 'Sour Gummy',
+            color: '#000',
           }).setOrigin(0.5)
           this.add(this.infoText)
         }
